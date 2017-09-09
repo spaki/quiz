@@ -35,8 +35,6 @@ namespace api.Controllers
                             .FirstOrDefaultAsync()
                             .ConfigureAwait(false);
 
-            Debug.WriteLine($"Question Id: {result.Id}");
-
             return this.Ok(result);
         }
 

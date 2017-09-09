@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using api.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +28,17 @@ namespace api.Controllers
         [HttpGet("questions/{questionId}/answers")]
         public async Task<IActionResult> Get(string questionId)
         {
-            var result = await answers
+            var answersList = await answers
                             .Find(Builders<Answer>.Filter.Eq(e => e.QuestionId, ObjectId.Parse(questionId)))
                             .ToListAsync()
                             .ConfigureAwait(false);
+                            
+            var total = answersList.Count();
+
+            var result = answersList
+                            .GroupBy(e => e.Option)
+                            .Select(e => new { Option = e.Key, Percentage = (e.Count() * 100) / total })
+                            .ToList();
 
             return this.Ok(result);
         }

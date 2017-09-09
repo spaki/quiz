@@ -1,12 +1,16 @@
 using System;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace api.Entities
 {
     public class Answer
     {
-        public ObjectId Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
+        [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId QuestionId { get; set; }
 
         public Guid RequestKey { get; set; }
