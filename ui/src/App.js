@@ -4,6 +4,7 @@ import './App.css';
 import Question from './Components/Question';
 import Option from './Components/Option';
 import Chart from './Components/Chart';
+import Helper from './Helper';
 
 
 class App extends Component {
@@ -11,8 +12,12 @@ class App extends Component {
     super(props);
 
     this.state = { 
-      question: { id: "", description: "", options: [] }
+      question: { id: "", description: "", options: [] },
+      hasVoted: this.hasVoted()
     };
+
+    this.updateVoteStatus = this.updateVoteStatus.bind(this);
+    this.renderOption = this.renderOption.bind(this);
   }
 
   componentDidMount() {
@@ -20,20 +25,21 @@ class App extends Component {
   }
 
   getQuestion() {
-    fetch(this.getEndpoint('api/Questions'))
+    fetch(Helper.getEndpoint('api/Questions'))
       .then(result => result.json())
       .then(result => this.setState({ question: result }));
   }
 
-  getEndpoint(ep){
-    if(!window.location.hostname.includes('localhost'))
-      return ep; // 'http://www.almocando.com.br/' + ep;
-      
-    return 'http://localhost:5000/' + ep;
+  updateVoteStatus() {
+    this.setState({ hasVoted: this.hasVoted() })
+  }
+
+  hasVoted() {
+    return localStorage.getItem('requestKey') != null;
   }
 
   renderOption(item) {
-    return <Option value={item} />;
+    return <Option key={item} value={item} questionId={this.state.question.id} updateVoteStatus={this.updateVoteStatus} hasVoted={this.state.hasVoted}/>;
   }
 
   render() {

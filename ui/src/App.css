@@ -31,6 +31,18 @@
   color: #418EFF;
 }
 
+.App-option-disabled {
+  border: 1px solid #000;
+  color: #fff;
+  background-color: #222;
+}
+
+.App-option-voted {
+  border: 1px solid #00B624;
+  color: #fff;
+  background-color: #00FF33;
+}
+
 .App-chart {
   margin: 40px auto;
   padding: 10px;

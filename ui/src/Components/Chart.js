@@ -1,46 +1,46 @@
 import React, { Component } from 'react';
 import ChartBar from './ChartBar';
+import Helper from '../Helper';
 
 class Chart extends Component {
   constructor(props) {
     super(props);
 
     this.state = { 
-      options: []
+      answers: [],
+      total: 0
     };
   }
 
   componentDidMount() {
-    this.timer = setInterval(()=> this.getItems(), 1000);
+    this.timer = setInterval(() => this.getItems(), 1000);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     this.timer = null;
   }
 
   getItems() {
-    if(this.props.questionId != "") {
-      fetch(this.getEndpoint('api/questions/' + encodeURIComponent(this.props.questionId) + "/answers"))
+    if(this.props.questionId !== "") {
+      fetch(Helper.getEndpoint('api/questions/' + encodeURIComponent(this.props.questionId) + "/answers"))
         .then(result => result.json())
-        .then(result => this.setState({ options: result }));
+        .then(result => this.setState({ answers: result.answers, total: result.total }));
     }
   }
 
-  getEndpoint(ep){
-    if(!window.location.hostname.includes('localhost'))
-      return ep; // 'http://www.almocando.com.br/' + ep;
-      
-    return 'http://localhost:5000/' + ep;
-  }
-
   renderBar(item) {
-    return <ChartBar option={item.option} percentage={item.percentage} />;
+    return <ChartBar key={item.option} option={item.option} percentage={item.percentage} />;
   }
 
   render() {
     return (
-      <div className="App-chart">
-        { this.state.options.map(this.renderBar) }
+      <div>
+        <div className="App-chart">
+          { this.state.answers.map(this.renderBar) }
+        </div>
+        <div>
+          Total: { this.state.total }
+        </div>
       </div>
     );
   }

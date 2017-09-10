@@ -39,7 +39,7 @@ namespace api.Controllers
                             .ToListAsync()
                             .ConfigureAwait(false);
                             
-            var total = answersList.Count();
+            Decimal total = answersList.Count();
 
             var answersValues = new Hashtable(
                                     answersList
@@ -48,7 +48,9 @@ namespace api.Controllers
                                         .ToDictionary(e => e.Option, e => e.Percentage)
                                 );
 
-            var result = question.Options.Select(e => new { Option = e, Percentage = (int?)answersValues[e] ?? 0 }).ToList();
+            var answersCompiled = question.Options.Select(e => new { Option = e, Percentage = (Decimal?)answersValues[e] ?? 0 }).ToList();
+            
+            var result  = new { answers = answersCompiled, total = total };
 
             return this.Ok(result);
         }
