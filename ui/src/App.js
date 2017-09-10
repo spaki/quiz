@@ -5,10 +5,35 @@ import Question from './Components/Question';
 import Option from './Components/Option';
 import Chart from './Components/Chart';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { options:  ["111", "2 2 2", "333 333 333"] };
+
+    this.state = { 
+      question: { id: "", description: "", options: [] }
+    };
+  }
+
+  componentDidMount() {
+    this.getQuestion();
+  }
+
+  getQuestion() {
+    fetch(this.getEndpoint('api/Questions'))
+      .then(result => result.json())
+      .then(result => this.setState({ question: result }));
+  }
+
+  getEndpoint(ep){
+    if(!window.location.hostname.includes('localhost'))
+      return ep; // 'http://www.almocando.com.br/' + ep;
+      
+    return 'http://localhost:5000/' + ep;
+  }
+
+  renderOption(item) {
+    return <Option value={item} />;
   }
 
   render() {
@@ -16,15 +41,12 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <Question description="ma oeeeeeeee"/>
+          <Question description={this.state.question.description}/>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <ul>
-          { this.state.options.map((item,i) => <Option value={item} />) }
-        </ul>
-        <Chart />
+        <div className="App-options">
+          { this.state.question.options.map(this.renderOption) }
+        </div>
+        <Chart questionId={this.state.question.id} />
       </div>
     );
   }

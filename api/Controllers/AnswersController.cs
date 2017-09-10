@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Entities;
@@ -13,9 +14,8 @@ namespace api.Controllers
     public class AnswersController : Controller
     {
         IMongoDatabase db;
-
         IMongoCollection<Answer> answers;
-
+        IMongoCollection<Question> questions;
         IConfiguration configuration;
 
         public AnswersController(MongoClient client, IConfiguration configuration)
@@ -23,11 +23,17 @@ namespace api.Controllers
             this.configuration = configuration;
             this.db = client.GetDatabase(this.configuration["DbName"]);
             this.answers = this.db.GetCollection<Answer>(nameof(Answer));
+            this.questions = this.db.GetCollection<Question>(nameof(Question));
         }   
 
         [HttpGet("questions/{questionId}/answers")]
         public async Task<IActionResult> Get(string questionId)
         {
+            var question = await questions
+                            .Find(Builders<Question>.Filter.Eq(e => e.Id, questionId))
+                            .FirstOrDefaultAsync()
+                            .ConfigureAwait(false);
+
             var answersList = await answers
                             .Find(Builders<Answer>.Filter.Eq(e => e.QuestionId, ObjectId.Parse(questionId)))
                             .ToListAsync()
@@ -35,10 +41,14 @@ namespace api.Controllers
                             
             var total = answersList.Count();
 
-            var result = answersList
-                            .GroupBy(e => e.Option)
-                            .Select(e => new { Option = e.Key, Percentage = (e.Count() * 100) / total })
-                            .ToList();
+            var answersValues = new Hashtable(
+                                    answersList
+                                        .GroupBy(e => e.Option)
+                                        .Select(e => new { Option = e.Key, Percentage = (e.Count() * 100) / total })
+                                        .ToDictionary(e => e.Option, e => e.Percentage)
+                                );
+
+            var result = question.Options.Select(e => new { Option = e, Percentage = (int?)answersValues[e] ?? 0 }).ToList();
 
             return this.Ok(result);
         }

@@ -10,13 +10,11 @@ using MongoDB.Driver;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/questions")]
     public class QuestionsController : Controller
     {
         IMongoDatabase db;
-
         IMongoCollection<Question> questions;
-
         IConfiguration configuration;
 
         public QuestionsController(MongoClient client, IConfiguration configuration)

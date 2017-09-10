@@ -14,11 +14,36 @@
   color: white;
 }
 
-.App-intro {
-  font-size: large;
-}
-
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.App-options {
+  margin: 20px;
+}
+
+.App-option {
+  text-decoration: none;
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #418EFF;
+  color: #418EFF;
+}
+
+.App-chart {
+  margin: 40px auto;
+  padding: 10px;
+  border: 1px solid #000;
+  width: 300px;
+}
+
+.App-chart-option {
+  background-color: #93C2FE;
+  text-align: left;
+  color: #000;
+  padding: 10px;
+  overflow-x: visible;
+  white-space: nowrap;
+  margin: 10px
 }
