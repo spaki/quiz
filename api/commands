@@ -1,0 +1,25 @@
+mkdir api
+cd api
+dotnet new webapi
+
+
+
+npm install -g create-react-app
+
+create-react-app ui
+cd ui/
+npm start
+
+
+
+docker build -t aspnetapp .
+docker run -d -p 8080:80 --name quiz_api api
+
+
+
+docker ps -a 
+docker stop api
+docker rm api
+
+docker images
+docker rmi api
