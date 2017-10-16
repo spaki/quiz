@@ -4,6 +4,7 @@ import './App.css';
 import Question from './Components/Question';
 import Option from './Components/Option';
 import Chart from './Components/Chart';
+import QrCode from './Components/QrCode';
 import Helper from './Helper';
 
 
@@ -49,10 +50,17 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <Question description={this.state.question.description}/>
         </div>
-        <div className="App-options">
-          { this.state.question.options.map(this.renderOption) }
+        <div className="App-flex-container">
+          <div className="App-flex-item">
+            <div className="App-options">
+              { this.state.question.options.map(this.renderOption) }
+            </div>
+            <Chart questionId={this.state.question.id} />
+          </div>
+          <div className="App-flex-item">
+            <QrCode />
+          </div>
         </div>
-        <Chart questionId={this.state.question.id} />
       </div>
     );
   }

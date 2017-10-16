@@ -33,14 +33,23 @@ class Chart extends Component {
   }
 
   render() {
+    if(this.state.answers.length > 0)
+      return (
+        <div>
+          <div className="App-chart-outside">
+            <div className="App-chart">
+              { this.state.answers.map(this.renderBar) }
+              </div>
+            </div>
+          <div>
+            Total: { this.state.total }
+          </div>
+        </div>
+      );
+
     return (
       <div>
-        <div className="App-chart">
-          { this.state.answers.map(this.renderBar) }
-        </div>
-        <div>
-          Total: { this.state.total }
-        </div>
+        <i>loading...</i>
       </div>
     );
   }

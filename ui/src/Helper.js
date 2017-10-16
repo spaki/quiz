@@ -1,6 +1,6 @@
 function getEndpoint(ep) {
     if(!window.location.hostname.includes('localhost'))
-      return ep; // 'http://www.almocando.com.br/' + ep;
+      return 'https://spakiquiz.azurewebsites.net/' + ep; 
       
     return 'http://localhost:5000/' + ep;
   }

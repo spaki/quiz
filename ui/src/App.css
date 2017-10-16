@@ -43,10 +43,14 @@
   background-color: #00FF33;
 }
 
-.App-chart {
+.App-chart-outside {
   margin: 40px auto;
-  padding: 10px;
   border: 1px solid #000;
+  width: 360px;
+}
+
+.App-chart {
+  margin-left: 10px;
   width: 300px;
 }
 
@@ -58,4 +62,17 @@
   overflow-x: visible;
   white-space: nowrap;
   margin: 10px
+}
+
+.App-flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row;
+  flex-wrap: wrap;
+}
+
+.App-flex-item {
+  margin: 20px;
+  width: 400px;
 }

@@ -1,25 +1,68 @@
+// creating .net core webapi 
 mkdir api
 cd api
 dotnet new webapi
 
 
 
+// installing npm
 npm install -g create-react-app
 
+// creating react app
 create-react-app ui
-cd ui/
+// start react app
 npm start
+// publish react app
+npm run build 
 
 
 
-docker build -t aspnetapp .
-docker run -d -p 8080:80 --name quiz_api api
+// install firebase cli
+npm install -g firebase-tools
+
+// initialize folder
+firebase init
+// upload files to server
+firebase deploy
 
 
 
+// create docker image to api
+docker build -t quiz_api .
+// run api with docker
+docker run -d -p 8080:80 --name api quiz_api
+
+
+
+// list current servers
 docker ps -a 
+// stop docker server
 docker stop api
+// delete docker server
 docker rm api
 
+// list docker images
 docker images
+
+// remove docker image
 docker rmi api
+
+
+
+// create a tag to publish in the azure docker repository
+docker tag aspnetapp:latest spaki.azurecr.io/quiz_api
+// login in the azure docker repository
+docker login spaki.azurecr.io -u USUÁRIO -p SENHA
+// upload image to azure docker repository
+docker push spaki.azurecr.io/quiz_api
+
+
+
+// delete an image in the azure docker repository
+az acr repository delete -n spaki --repository webapplication1
+
+
+
+
+
+
