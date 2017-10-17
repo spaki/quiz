@@ -41,6 +41,10 @@ namespace api.Controllers
                             
             Decimal total = answersList.Count();
 
+            // Normal dictionary throws an exception when key is not found,
+            // but I want to have 0 in the value for keys without responses so far.
+            // Hashtable will return null, instead of exception, for nonexistent keys,
+            // this way I can use ?? operator and set 0 as default value.
             var answersValues = new Hashtable(
                                     answersList
                                         .GroupBy(e => e.Option)
