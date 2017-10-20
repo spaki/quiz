@@ -33,19 +33,27 @@
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-                builder.AllowAnyOrigin();
-            });
-
+            ConfigureCors(app);
             app.UseMvc();
+            ConfigureSwagger(app);
+        }
 
+        private static void ConfigureSwagger(IApplicationBuilder app)
+        {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json","Quiz");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Quiz");
+            });
+        }
+
+        private static void ConfigureCors(IApplicationBuilder app)
+        {
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
             });
         }
     }
