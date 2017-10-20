@@ -1,9 +1,9 @@
-using System;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
 namespace api.Entities
 {
+    using System;
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
+
     public class Answer
     {
         [BsonId]

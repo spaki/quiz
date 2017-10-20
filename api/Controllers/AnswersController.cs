@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using System.Threading.Tasks;
-using api.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
-namespace api.Controllers
+﻿namespace api.Controllers
 {
+    using System;
+    using System.Collections;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using api.Entities;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+
     [Route("api")]
     public class AnswersController : Controller
     {
