@@ -9,6 +9,7 @@ class Option extends Component {
 
   vote() {
     localStorage.setItem('votedValue', this.props.value);
+    localStorage.setItem('questionId', this.props.questionId);
 
     fetch(Helper.getEndpoint('api/questions/' + encodeURIComponent(this.props.questionId) + "/answers"), {
       method: 'POST',
@@ -50,7 +51,7 @@ class Option extends Component {
   }
 
   isVotedOption() {
-    return localStorage.getItem('votedValue') == this.props.value;
+    return localStorage.getItem('votedValue') == this.props.value && localStorage.getItem('questionId') == this.props.questionId;
   }
 
   render() {

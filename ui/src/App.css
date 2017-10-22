@@ -29,6 +29,7 @@
   padding: 10px;
   border: 1px solid #418EFF;
   color: #418EFF;
+  white-space: nowrap;
 }
 
 .App-option-disabled {

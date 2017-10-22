@@ -14,7 +14,7 @@ class App extends Component {
 
     this.state = { 
       question: { id: "", description: "", options: [] },
-      hasVoted: this.hasVoted()
+      hasVoted: false
     };
 
     this.updateVoteStatus = this.updateVoteStatus.bind(this);
@@ -28,7 +28,8 @@ class App extends Component {
   getQuestion() {
     fetch(Helper.getEndpoint('api/Questions'))
       .then(result => result.json())
-      .then(result => this.setState({ question: result }));
+      .then(result => this.setState({ question: result }))
+      .then(result => this.setState({ hasVoted: this.hasVoted() }));
   }
 
   updateVoteStatus() {
@@ -36,7 +37,7 @@ class App extends Component {
   }
 
   hasVoted() {
-    return localStorage.getItem('requestKey') != null;
+    return localStorage.getItem('questionId') == this.state.question.id && localStorage.getItem('requestKey') != null;
   }
 
   renderOption(item) {

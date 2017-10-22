@@ -3,7 +3,16 @@ mkdir api
 cd api
 dotnet new webapi
 
-// installing npm
+// installing packages into api
+dotnet add package MongoDB.Driver
+dotnet add package Swashbuckle.AspNetCore
+
+// restore, build and run
+dotnet restore
+dotnet build
+dotnet run
+
+// installing react cli
 npm install -g create-react-app
 
 // creating react app
@@ -46,7 +55,7 @@ docker images
 docker rmi api
 
 // create a tag to publish in the azure docker repository
-docker tag aspnetapp:latest spaki.azurecr.io/quiz_api
+docker tag quiz_api:latest spaki.azurecr.io/quiz_api
 
 // login in the azure docker repository
 docker login spaki.azurecr.io -u USUÁRIO -p SENHA
