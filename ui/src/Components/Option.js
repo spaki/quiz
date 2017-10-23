@@ -65,7 +65,7 @@ class Option extends Component {
       );
     } else {
       return (
-        <a className="App-option" href="#" onClick={this.vote}>{this.props.value}</a>
+        <a className="App-option" href="javascript:;" onClick={this.vote}>{this.props.value}</a>
       );
     }
   }

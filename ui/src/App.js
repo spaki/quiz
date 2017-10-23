@@ -5,6 +5,7 @@ import Question from './Components/Question';
 import Option from './Components/Option';
 import Chart from './Components/Chart';
 import QrCode from './Components/QrCode';
+import HiddenMenu from './Components/HiddenMenu';
 import Helper from './Helper';
 
 
@@ -61,6 +62,9 @@ class App extends Component {
           <div className="App-flex-item">
             <QrCode />
           </div>
+        </div>
+        <div>
+          <HiddenMenu updateVoteStatus={this.updateVoteStatus} questionId={this.state.question.id}/>
         </div>
       </div>
     );

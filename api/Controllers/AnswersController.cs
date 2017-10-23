@@ -59,6 +59,16 @@ namespace api.Controllers
             return this.Ok(result);
         }
 
+        [HttpDelete("questions/{questionId}/answers")]
+        public async Task<IActionResult> Delete(string questionId)
+        {
+            await answers
+                    .DeleteManyAsync(Builders<Answer>.Filter.Eq(e => e.QuestionId, ObjectId.Parse(questionId)))
+                    .ConfigureAwait(false);
+            
+            return this.Ok();
+        }
+
         [HttpPost("questions/{questionId}/answers")]
         public async Task<IActionResult> Post(string questionId, [FromBody]Answer entity)
         {

@@ -77,3 +77,16 @@
   margin: 20px;
   width: 400px;
 }
+
+.App-hidden-menu {
+  text-align: left;
+}
+
+.App-hidden-menu a {
+  text-decoration: none;
+  cursor: default;  
+}
+
+.App-hidden-menu-invisible a {
+  color: #fff;
+}
