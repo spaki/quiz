@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using System.Threading.Tasks;
-using api.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
-using MongoDB.Driver;
-
-namespace api.Controllers
+﻿namespace api.Controllers
 {
+    using System;
+    using System.Collections;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using api.Entities;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+
     [Route("api")]
     public class AnswersController : Controller
     {
@@ -29,16 +29,10 @@ namespace api.Controllers
         [HttpGet("questions/{questionId}/answers")]
         public async Task<IActionResult> Get(string questionId)
         {
-            var question = await questions
-                            .Find(Builders<Question>.Filter.Eq(e => e.Id, questionId))
-                            .FirstOrDefaultAsync()
-                            .ConfigureAwait(false);
+            Question question = await GetQuestionAsync(questionId);
 
-            var answersList = await answers
-                            .Find(Builders<Answer>.Filter.Eq(e => e.QuestionId, ObjectId.Parse(questionId)))
-                            .ToListAsync()
-                            .ConfigureAwait(false);
-                            
+            var answersList = await GetAnswerListByQuestionIdAsync(questionId);
+
             Decimal total = answersList.Count();
 
             // Normal dictionary throws an exception when key is not found,
@@ -53,8 +47,8 @@ namespace api.Controllers
                                 );
 
             var answersCompiled = question.Options.Select(e => new { Option = e, Percentage = (Decimal?)answersValues[e] ?? 0 }).ToList();
-            
-            var result  = new { answers = answersCompiled, total = total };
+
+            var result = new { answers = answersCompiled, total = total };
 
             return this.Ok(result);
         }
@@ -88,15 +82,28 @@ namespace api.Controllers
 
         private async Task<Answer> LoadByRequestAndQuenstion(string questionId, Guid requestKey)
         {
-            var result = await answers
-                            .Find(e => 
-                                e.QuestionId == ObjectId.Parse(questionId)
-                                && e.RequestKey == requestKey
-                            )
-                            .FirstOrDefaultAsync()
-                            .ConfigureAwait(false);
+            var result = await answers.Find(e => 
+                                                e.QuestionId == ObjectId.Parse(questionId)
+                                             && e.RequestKey == requestKey
+                                        )
+                                      .FirstOrDefaultAsync()
+                                      .ConfigureAwait(false);
 
             return result;
+        }
+
+        private async Task<System.Collections.Generic.List<Answer>> GetAnswerListByQuestionIdAsync(string questionId)
+        {
+            return await answers.Find(Builders<Answer>.Filter.Eq(e => e.QuestionId, ObjectId.Parse(questionId)))
+                                .ToListAsync()
+                                .ConfigureAwait(false);
+        }
+
+        private async Task<Question> GetQuestionAsync(string questionId)
+        {
+            return await questions.Find(Builders<Question>.Filter.Eq(e => e.Id, questionId))
+                                  .FirstOrDefaultAsync()
+                                  .ConfigureAwait(false);
         }
     }
 }

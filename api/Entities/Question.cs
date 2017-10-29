@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
 namespace api.Entities
 {
+    using System;
+    using System.Collections.Generic;
+    using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.Attributes;
+
     public class Question
     {
         [BsonId]
